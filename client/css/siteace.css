@@ -13,6 +13,12 @@
   margin-top: 10px;
 }
 
+.required {
+  font-size: 0.9em;
+  color: #ff0000;
+  font-style: normal;
+}
+
 /* List of websites */
 
 .item {
@@ -24,10 +30,10 @@
   margin-right: 10px;
 }
 .positive {
-  color: green;
+  color: #449d44;
 }
 .negative {
-  color: red;
+  color: #c9302c;
 }
 .date {
   margin-top: 8px;

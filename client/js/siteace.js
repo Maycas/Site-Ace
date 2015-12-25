@@ -8,7 +8,7 @@ Template.website_list.helpers({
     return Websites.find({}, {
       sort: {
         upvotes: -1,
-        downvotes: 1,
+        downvotes: 1
       }
     });
   },
@@ -16,14 +16,22 @@ Template.website_list.helpers({
 
 Template.website_item.helpers({
   upvotes: function() {
-    return Websites.findOne({
-      _id: this._id
-    }).upvotes;
+    return Votes.find({
+      website_id: this._id,
+      vote: 1
+    }).count();
   },
   downvotes: function() {
-    return Websites.findOne({
-      _id: this._id
-    }).downvotes;
+    return Votes.find({
+      website_id: this._id,
+      vote: -1
+    }).count();
+  },
+  upvotesButtonClass: function() {
+    return buttonClass("btn-success", this._id, 1);
+  },
+  downvotesButtonClass: function() {
+    return buttonClass("btn-danger", this._id, -1);
   },
   date: function() {
     return Websites.findOne({
@@ -35,25 +43,12 @@ Template.website_item.helpers({
 /////
 //template events
 /////
-
-//TODO: Allow voting or downvoting once for each user
 Template.website_item.events({
   "click .js-upvote": function(event) {
-    // example of how you can access the id for the website in the database
-    // (this is the data context for the template)
     var website_id = this._id;
     console.log("Up voting website with id " + website_id);
 
-    
-
-    // Insert the votes to the database
-    Websites.update({
-      _id: website_id
-    }, {
-      $inc: {
-        upvotes: 1
-      }
-    });
+    setVote(Votes, Websites, website_id, 1);
 
     return false; // prevent the button from reloading the page
   },
@@ -64,16 +59,7 @@ Template.website_item.events({
     var website_id = this._id;
     console.log("Down voting website with id " + website_id);
 
-    // TODO: put the code in here to remove a vote from a website!
-
-    // Insert the votes to the database
-    Websites.update({
-      _id: website_id
-    }, {
-      $inc: {
-        downvotes: 1
-      }
-    });
+    setVote(Votes, Websites, website_id, -1);
 
     return false; // prevent the button from reloading the page
   }
@@ -114,8 +100,9 @@ Template.website_form.events({
         title: title,
         url: url,
         description: description,
+        upvotes: 0,
+        downvotes: 0,
         createdOn: new Date(),
-        votes: 0,
         comments: []
       });
     }

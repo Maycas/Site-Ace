@@ -47,7 +47,7 @@
       </a>
       {{else}}
       <div class="alert alert-info" role="alert">
-        <p>Please Sign in to add a new website</p>
+        <p>Please Sign in to <strong>vote</strong> or <strong>add a new website</strong></p>
       </div>
       {{/if}}
     </div>
@@ -57,7 +57,7 @@
       <div id="website_form" class="hidden_div">
         <form class="js-save-website-form">
           <div class="form-group">
-            <label for="url">Site address</label>
+            <label for="url">Site address <span class="required">(&#42;)</span></label>
             <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com" required>
           </div>
           <div class="form-group">
@@ -65,8 +65,11 @@
             <input type="text" class="form-control" id="title" placeholder="Mysite">
           </div>
           <div class="form-group">
-            <label for="description">Description</label>
-            <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
+            <label for="description">Description <span class="required">(&#42;)</span></label>
+            <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ..." required>
+          </div>
+          <div class="form-group">
+            <p class="required">Fields with (&#42;) are required</p>
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
@@ -90,11 +93,11 @@
   <li class="item">
     <a href="{{url}}">{{title}}</a>
     <p>{{description}}</p>
-    <a href="#" class="btn btn-default js-upvote">
+    <a href="#" class="btn {{upvotesButtonClass}} js-upvote voting">
       <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
     </a>
     <p class="votes positive">{{upvotes}}</p>
-    <a href="#" class="btn btn-default js-downvote">
+    <a href="#" class="btn {{downvotesButtonClass}} js-downvote voting">
       <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
     </a>
     <p class="votes negative">{{downvotes}}</p>
