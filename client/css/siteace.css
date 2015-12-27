@@ -7,12 +7,11 @@
   margin-bottom: 0;
 }
 #website_list {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 #website_form {
   margin-top: 10px;
 }
-
 .required {
   font-size: 0.9em;
   color: #ff0000;
@@ -22,7 +21,7 @@
 /* List of websites */
 
 .item {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .votes {
   display: inline;
@@ -37,4 +36,36 @@
 }
 .date {
   margin-top: 8px;
+}
+.btn-info {
+  padding: 2px 10px;
+  width: 10%;
+}
+
+/* Website details */
+
+.row-header {
+  margin-top: 20px;
+}
+.data_title {
+  font-weight: bold;
+  font-size: 14px;
+}
+.date {
+  margin-top: 0;
+}
+#comment-form {
+  margin-top: 10px;
+}
+#website_title {
+  margin-bottom: 20px;
+}
+h2, blockquote {
+  font-size: 110%;
+}
+
+/* Footer */
+
+footer {
+  text-align: right;
 }

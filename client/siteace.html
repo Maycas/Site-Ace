@@ -9,17 +9,16 @@
 <template name="ApplicationLayout">
   {{> yield "navbar"}}
   <div class="container">
-    {{> yield "website_form"}} {{> yield "website_list"}}
+    {{> yield "main"}} {{> yield "footer"}}
   </div>
 </template>
-
 
 <!-- Navbar -->
 <template name="navbar">
   <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Site Ace</a>
+        <a class="navbar-brand" href="/">Site Ace</a>
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
@@ -36,7 +35,6 @@
   </nav>
 </template>
 
-
 <!-- Add new website form -->
 <template name="website_form">
   <div class="row">
@@ -47,7 +45,10 @@
       </a>
       {{else}}
       <div class="alert alert-info" role="alert">
-        <p>Please Sign in to <strong>vote</strong> or <strong>add a new website</strong></p>
+        <p>Please Sign in to
+          <strong>vote</strong> or
+          <strong>add a new website</strong>
+        </p>
       </div>
       {{/if}}
     </div>
@@ -57,7 +58,9 @@
       <div id="website_form" class="hidden_div">
         <form class="js-save-website-form">
           <div class="form-group">
-            <label for="url">Site address <span class="required">(&#42;)</span></label>
+            <label for="url">Site address
+              <span class="required">(&#42;)</span>
+            </label>
             <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com" required>
           </div>
           <div class="form-group">
@@ -65,7 +68,9 @@
             <input type="text" class="form-control" id="title" placeholder="Mysite">
           </div>
           <div class="form-group">
-            <label for="description">Description <span class="required">(&#42;)</span></label>
+            <label for="description">Description
+              <span class="required">(&#42;)</span>
+            </label>
             <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ..." required>
           </div>
           <div class="form-group">
@@ -79,7 +84,6 @@
   <hr>
 </template>
 
-
 <!-- List of website items -->
 <template name="website_list">
   <ol id="website_list">
@@ -87,10 +91,14 @@
   </ol>
 </template>
 
+<!-- Website Form and List template -->
+<template name="websites_view">
+  {{> website_form}} {{> website_list}}
+</template>
 
 <!-- Individual website entry -->
 <template name="website_item">
-  <li class="item">
+  <li class="item" id="{{_id}}">
     <a href="{{url}}">{{title}}</a>
     <p>{{description}}</p>
     <a href="#" class="btn {{upvotesButtonClass}} js-upvote voting">
@@ -101,6 +109,95 @@
       <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
     </a>
     <p class="votes negative">{{downvotes}}</p>
-    <p class="date">Created on: {{date}}</p>
+    <p class="date">Created on: {{createdOn}}</p>
+    <a href="websites/{{_id}}" class="btn btn-info btn-xs">Details&nbsp;&nbsp;&gt;&gt;</a>
   </li>
+</template>
+
+<!-- Individual website detail -->
+<template name="website_detail">
+  {{> website_info}} {{> comment_form}} {{> comment_display}}
+</template>
+
+<!-- Displays basic information of the website -->
+<template name="website_info">
+  <a href="/">&lt;&lt; Back</a>
+  <div class="row">
+    <div class="col-md-12">
+      <h1 id="website_title">{{title}}</h1>
+      <div class="row">
+        <div class="col-md-1">
+          <p class="data_title">URL</p>
+        </div>
+        <div class="col-md-11">
+          <p><a href="{{url}}">{{url}}</a></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <p class="data_title">Description</p>
+        </div>
+        <div class="col-md-11">
+          <p>{{description}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <p class="data_title">Created</p>
+        </div>
+        <div class="col-md-11">
+          <p class="date">{{createdOn}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+</template>
+
+<!-- Add a comment form -->
+<template name="comment_form">
+  {{#if currentUser}}
+  <form class="form-horizontal js-submit-comment">
+    <div class="form-group">
+      <label for="comment" class="col-md-1 control-label">Send feedback</label>
+      <div class="col-md-11">
+        <textarea class="form-control" id="comment" placeholder="Put your comment here" rows=2></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-offset-1 col-md-11">
+        <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+    </div>
+  </form>
+  {{else}}
+  <div class="alert alert-info" role="alert">
+    <p>Sign in to post a
+      <strong> comment</strong>
+    </p>
+  </div>
+  {{/if}}
+</template>
+
+<!-- Display the list of comments -->
+<template name="comment_display">
+  <div class="row row-header">
+    <div class="col-md-12">
+      {{#if comments}}
+      <h2>Comments:</h2>
+      {{#each comments}}
+      <blockquote>
+        <p>{{this.text}}</p>
+        <footer>{{this.author}} on {{this.postDate}}</footer>
+      </blockquote>
+      {{/each}} {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="footer">
+  <hr>
+  <footer>
+    <p>View the page <a href="https://github.com/Maycas/Site-Ace" target="_blank">source code</a></p>
+  </footer>
 </template>

@@ -1,3 +1,7 @@
+//TODO: Implement a search function
+//TODO: Use the HTTP package for meteor to get the data from the websites
+//TODO: Implement a website recommender
+
 /////
 // template helpers
 /////
@@ -33,12 +37,8 @@ Template.website_item.helpers({
   downvotesButtonClass: function() {
     return buttonClass("btn-danger", this._id, -1);
   },
-  date: function() {
-    return Websites.findOne({
-      _id: this._id
-    }).createdOn;
-  }
 });
+
 
 /////
 //template events
@@ -77,35 +77,55 @@ Template.website_form.events({
     var description = event.target.description.value;
 
     // Check if the form has been filled in with a url and a description
-    if (url === "") {
-      alert("Please fill in a URL");
-      return false;
-    }
-    if (description === "") {
-      alert("Please fill in a description");
-      return false;
-    }
-    // Add http:// at the beginning if the URL doesn't have it
-    if (!/^((http|https|ftp):\/\/)/.test(url)) {
-      url = "http://" + url;
-    }
-    // In case there's no title take the URL as the title
-    if (title === "") {
-      title = url;
+    if (validateAddWebsiteForm(url, description)) {
+      url = formatUrl(url);
+      title = normalizeTitle(title, url);
+
+      console.log(url);
+      console.log("title before insertion: " + title);
+      console.log(description);
+
+      // Add the new entry into the database
+      if (Meteor.user()) {
+        Websites.insert({
+          title: title,
+          url: url,
+          description: description,
+          upvotes: 0,
+          downvotes: 0,
+          createdOn: new Date().toUTCString(),
+          comments: []
+        });
+      }
     }
 
-    // Add the new entry into the database
-    if (Meteor.user()) {
-      Websites.insert({
-        title: title,
-        url: url,
-        description: description,
-        upvotes: 0,
-        downvotes: 0,
-        createdOn: new Date(),
-        comments: []
-      });
-    }
+    return false; // stop the form submit from reloading the page
+  }
+});
+
+Template.comment_form.events({
+  'submit .js-submit-comment': function(event) {
+    var website_id = this._id;
+    console.log("Commenting website with id " + website_id);
+
+    // Get the value of the comment
+    var comment = event.target.comment.value;
+
+    // Insert the comment into the websites database
+    Websites.update({
+      _id: website_id
+    }, {
+      $push: {
+        comments: {
+          $each: [{
+            author: Meteor.user().username,
+            text: comment,
+            postDate: new Date().toUTCString()
+          }],
+          $position: 0
+        }
+      }
+    });
 
     return false; // stop the form submit from reloading the page
   }

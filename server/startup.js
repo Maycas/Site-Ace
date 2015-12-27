@@ -11,11 +11,16 @@ Meteor.startup(function() {
       description: "This is where this course was developed.",
       upvotes: 0,
       downvotes: 0,
-      createdOn: new Date(),
-      comments: [
-        "Pretty cool and awesome website",
-        "Can't believe it but it has awesome information"
-      ]
+      createdOn: new Date().toUTCString(),
+      comments: [{
+        author: "thunderbolt",
+        text: "Pretty cool and awesome website",
+        postDate: new Date().toUTCString()
+      }, {
+        author: "nilbeat",
+        text: "Can't believe it but it has awesome information",
+        postDate: new Date().toUTCString()
+      }]
     });
     Websites.insert({
       title: "University of London",
@@ -23,7 +28,7 @@ Meteor.startup(function() {
       description: "University of London International Programme.",
       upvotes: 0,
       downvotes: 0,
-      createdOn: new Date(),
+      createdOn: new Date().toUTCString(),
       comments: []
     });
     Websites.insert({
@@ -32,7 +37,7 @@ Meteor.startup(function() {
       description: "Universal access to the world’s best education.",
       upvotes: 0,
       downvotes: 0,
-      createdOn: new Date(),
+      createdOn: new Date().toUTCString(),
       comments: []
     });
     Websites.insert({
@@ -41,7 +46,7 @@ Meteor.startup(function() {
       description: "Popular search engine.",
       upvotes: 0,
       downvotes: 0,
-      createdOn: new Date(),
+      createdOn: new Date().toUTCString(),
       comments: []
     });
 
@@ -113,8 +118,7 @@ Meteor.startup(function() {
   }
 });
 
-
-var findByTitle = function (collection, title) {
+var findByTitle = function(collection, title) {
   return collection.findOne({
     title: title
   })._id;
