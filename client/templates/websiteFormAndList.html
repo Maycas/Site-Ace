@@ -1,0 +1,78 @@
+<!-- Website Form and List template -->
+<template name="websites_view">
+  {{> website_form}} {{> website_list}}
+</template>
+
+<!-- Add new website form -->
+<template name="website_form">
+  <div class="row">
+    <div class="col-md-12">
+      {{#if currentUser}}
+      <a class="btn btn-default js-toggle-website-form" href="#">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </a>
+      {{else}}
+      <div class="alert alert-info" role="alert">
+        <p>Please Sign in to
+          <strong>vote</strong> or
+          <strong>add a new website</strong>
+        </p>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div id="website_form" class="hidden_div">
+        <form class="js-save-website-form">
+          <div class="form-group">
+            <label for="url">Site address
+              <span class="required">(&#42;)</span>
+            </label>
+            <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com" required>
+          </div>
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="Mysite">
+          </div>
+          <div class="form-group">
+            <label for="description">Description
+              <span class="required">(&#42;)</span>
+            </label>
+            <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ..." required>
+          </div>
+          <div class="form-group">
+            <p class="required">Fields with (&#42;) are required</p>
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <hr>
+</template>
+
+<!-- List of website items -->
+<template name="website_list">
+  <ol id="website_list">
+    {{#each websites}} {{>website_item}} {{/each}}
+  </ol>
+</template>
+
+<!-- Individual website entry -->
+<template name="website_item">
+  <li class="item" id="{{_id}}">
+    <a href="{{url}}">{{title}}</a>
+    <p>{{description}}</p>
+    <a href="#" class="btn {{upvotesButtonClass}} js-upvote voting">
+      <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+    </a>
+    <p class="votes positive">{{upvotes}}</p>
+    <a href="#" class="btn {{downvotesButtonClass}} js-downvote voting">
+      <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+    </a>
+    <p class="votes negative">{{downvotes}}</p>
+    <p class="date">Created on: {{createdOn}}</p>
+    <a href="websites/{{_id}}" class="btn btn-info btn-xs">Details&nbsp;&nbsp;&gt;&gt;</a>
+  </li>
+</template>

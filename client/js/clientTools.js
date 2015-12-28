@@ -10,8 +10,6 @@ this.validateAddWebsiteForm = function(url, description) {
     return false;
   }
 
-  //
-
   return true;
 };
 

@@ -1,0 +1,14 @@
+<head>
+  <title>Site Ace</title>
+</head>
+
+<body>
+</body>
+
+<!-- Main application layout -->
+<template name="ApplicationLayout">
+  {{> yield "navbar"}}
+  <div class="container">
+    {{> yield "main"}} {{> yield "footer"}}
+  </div>
+</template>

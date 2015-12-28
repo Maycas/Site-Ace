@@ -22,3 +22,4 @@ twbs:bootstrap          # Twitter bootstrap
 iron:router             # Routing
 accounts-password       # User accounts packager
 ian:accounts-ui-bootstrap-3
+http

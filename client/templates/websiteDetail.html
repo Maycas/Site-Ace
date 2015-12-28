@@ -1,0 +1,80 @@
+<!-- Individual website detail -->
+<template name="website_detail">
+  {{> website_info}} {{> comment_form}} {{> comment_display}}
+</template>
+
+<!-- Displays basic information of the website -->
+<template name="website_info">
+  <a href="/">&lt;&lt; Back</a>
+  <div class="row">
+    <div class="col-md-12">
+      <h1 id="website_title">{{title}}</h1>
+      <div class="row">
+        <div class="col-md-1">
+          <p class="data_title">URL</p>
+        </div>
+        <div class="col-md-11">
+          <p><a href="{{url}}" target="_blank">{{url}}</a></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <p class="data_title">Description</p>
+        </div>
+        <div class="col-md-11">
+          <p>{{description}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <p class="data_title">Created</p>
+        </div>
+        <div class="col-md-11">
+          <p class="date">{{createdOn}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+</template>
+
+<!-- Add a comment form -->
+<template name="comment_form">
+  {{#if currentUser}}
+  <form class="form-horizontal js-submit-comment">
+    <div class="form-group">
+      <label for="comment" class="col-md-1 control-label">Send feedback</label>
+      <div class="col-md-11">
+        <textarea class="form-control" id="comment" placeholder="Put your comment here" rows=2></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-offset-1 col-md-11">
+        <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+    </div>
+  </form>
+  {{else}}
+  <div class="alert alert-info" role="alert">
+    <p>Sign in to post a
+      <strong> comment</strong>
+    </p>
+  </div>
+  {{/if}}
+</template>
+
+<!-- Display the list of comments -->
+<template name="comment_display">
+  <div class="row row-header">
+    <div class="col-md-12">
+      {{#if comments}}
+      <h2>Comments:</h2>
+      {{#each comments}}
+      <blockquote>
+        <p>{{this.text}}</p>
+        <footer>{{this.author}} on {{this.postDate}}</footer>
+      </blockquote>
+      {{/each}} {{/if}}
+    </div>
+  </div>
+</template>

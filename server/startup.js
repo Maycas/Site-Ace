@@ -12,15 +12,7 @@ Meteor.startup(function() {
       upvotes: 0,
       downvotes: 0,
       createdOn: new Date().toUTCString(),
-      comments: [{
-        author: "thunderbolt",
-        text: "Pretty cool and awesome website",
-        postDate: new Date().toUTCString()
-      }, {
-        author: "nilbeat",
-        text: "Can't believe it but it has awesome information",
-        postDate: new Date().toUTCString()
-      }]
+      comments: []
     });
     Websites.insert({
       title: "University of London",

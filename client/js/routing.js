@@ -3,6 +3,7 @@ Router.configure({
   layoutTemplate: "ApplicationLayout"
 });
 
+// Render the main page template
 Router.route('/', function() {
   this.render('navbar', {
     to: "navbar"
@@ -15,6 +16,7 @@ Router.route('/', function() {
   });
 });
 
+// Render the website details page
 Router.route('websites/:_id', function() {
   this.render('navbar', {
     to: 'navbar'
