@@ -5,8 +5,14 @@
 
 <!-- Add new website form -->
 <template name="website_form">
+  {{> website_form_header}} {{>website_form_body}}
+  <hr>
+</template>
+
+<!-- Website form header -->
+<template name="website_form_header">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-7">
       {{#if currentUser}}
       <a class="btn btn-default js-toggle-website-form" href="#">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -20,36 +26,65 @@
       </div>
       {{/if}}
     </div>
+    <div class="col-md-5">
+      <div class="input-group" id="search">
+        <input type="text" class="form-control" placeholder="Search for..." id="search-box">
+        <span class="input-group-btn">
+          <button class="btn btn-default js-search" type="button">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
+      </div>
+    </div>
   </div>
+</template>
+
+<!-- Website form body-->
+<template name="website_form_body">
   <div class="row">
     <div class="col-md-12">
       <div id="website_form" class="hidden_div">
         <form class="js-save-website-form">
+          <!-- URL input -->
           <div class="form-group">
-            <label for="url">Site address
-              <span class="required">(&#42;)</span>
+            <label for="url">Site address&nbsp;
+              <span class="required glyphicon glyphicon-asterisk"></span>
             </label>
-            <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com" required>
+            <div class="input-group">
+              <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com" required>
+              <span class="input-group-btn" id="getUrlButton">
+                <button class="btn btn-default js-get-url-info" type="button">
+                  <span class="glyphicon glyphicon-link"></span>&nbsp;Get URL info
+                </button>
+              </span>
+            </div>
           </div>
+          <!-- Title input -->
           <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" placeholder="Mysite">
+            <div class="title-placeholder">
+              <input type="text" class="form-control" id="title" placeholder="Mysite">
+            </div>
           </div>
+          <!-- Description input -->
           <div class="form-group">
-            <label for="description">Description
-              <span class="required">(&#42;)</span>
+            <label for="description">Description&nbsp;
+              <span class="required glyphicon glyphicon-asterisk"></span>
             </label>
-            <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ..." required>
+            <div id="description-placeholder">
+              <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ..." required>
+            </div>
           </div>
+          <!-- Asterisk required description -->
           <div class="form-group">
-            <p class="required">Fields with (&#42;) are required</p>
+            <p class="required">Fields with
+              <span class="required glyphicon glyphicon-asterisk"></span> are required</p>
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
       </div>
     </div>
   </div>
-  <hr>
 </template>
 
 <!-- List of website items -->

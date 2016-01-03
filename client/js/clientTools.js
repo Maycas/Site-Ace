@@ -1,16 +1,28 @@
-// Validates the form data (valid url and )
-this.validateAddWebsiteForm = function(url, description) {
-  // Check if the form has been filled in with a url and a description
-  if (url === "") {
-    alert("Please fill in a URL");
+// Validates a correct URL
+this.validateUrl = function(url) {
+  if (url === "" || url === null || url === undefined) {
+    alert("Please fill in a valid URL");
     return false;
   }
+  return true;
+};
+
+// Validates a correct description
+this.validateDescription = function(description) {
   if (description === "") {
     alert("Please fill in a description");
     return false;
   }
-
   return true;
+};
+
+// Validates the form data (valid url and description)
+this.validateAddWebsiteForm = function(url, description) {
+  // Check if the form has been filled in with a url and a description
+  if (validateUrl(url) && validateDescription(description)) {
+    return true;
+  }
+  return false;
 };
 
 // Adds http:// at the beginning if the introduced URL doesn't have it
