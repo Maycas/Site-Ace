@@ -17,7 +17,7 @@ Router.route('/', function() {
 });
 
 // Render the website details page
-Router.route('websites/:_id', function() {
+Router.route('/websites/:_id', function() {
   this.render('navbar', {
     to: 'navbar'
   });
@@ -30,6 +30,19 @@ Router.route('websites/:_id', function() {
     }
   });
   this.render('footer', {
-    to: "footer"
+    to: 'footer'
+  });
+});
+
+// Render the search page
+Router.route('/search_results', function() {
+  this.render('navbar', {
+    to:'navbar'
+  });
+  this.render('website_search', {
+    to: 'main'
+  });
+  this.render('footer', {
+    to: 'footer'
   });
 });

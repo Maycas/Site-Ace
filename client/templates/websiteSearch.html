@@ -1,0 +1,25 @@
+<!-- Main template for the search page -->
+<template name="website_search">
+  <div class="row">
+    <a class="col-md-7" href="/">&lt;&lt; Back to the main list</a>
+    {{> search_widget}}
+  </div>
+  <hr>
+  <div class="row">
+    <p class="col-md-12">Searching for:
+      <span class="query">{{query}}</span>
+    </p>
+    <p class="col-md-12">Showing
+      <span>{{filtered}}</span> results (out of
+      <span>{{total}}</span>)
+    </p>
+  </div>
+  {{> website_search_list}}
+</template>
+
+<!-- Template for the list of websites -->
+<template name="website_search_list">
+  <ol id="website_list">
+    {{#each searched_websites}} {{>website_item}} {{/each}}
+  </ol>
+</template>

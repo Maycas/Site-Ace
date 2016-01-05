@@ -1,4 +1,3 @@
-//TODO: Implement a search function
 //TODO: Implement a website recommender
 
 /////
@@ -14,7 +13,7 @@ Template.website_list.helpers({
         downvotes: 1
       }
     });
-  },
+  }
 });
 
 Template.website_item.helpers({
@@ -35,6 +34,57 @@ Template.website_item.helpers({
   },
   downvotesButtonClass: function() {
     return buttonClass("btn-danger", this._id, -1);
+  },
+});
+
+Template.website_search.helpers({
+  filtered: function() {
+    if (typeof Session.get("website_ids")) {
+      return Websites.find({
+        _id: {
+          $in: Session.get("website_ids")
+        }
+      }, {
+        sort: {
+          upvotes: -1,
+          downvotes: 1
+        }
+      }).count();
+    }
+    return "0";
+  },
+  total: function() {
+    return Websites.find({}).count();
+  },
+  query: function() {
+    if (Session.get("query")) {
+      return Session.get("query");
+    } else {
+      return "no search query";
+    }
+  }
+});
+
+Template.website_search_list.helpers({
+  searched_websites: function() {
+    try {
+      if (typeof Session.get("website_ids") !== "undefined") {
+        console.log("accessing the db");
+        return Websites.find({
+          _id: {
+            $in: Session.get("website_ids")
+          }
+        }, {
+          sort: {
+            upvotes: -1,
+            downvotes: 1
+          }
+        });
+      }
+    } catch (error) {
+      console.log("error: " + error);
+    }
+    return false;
   },
 });
 
@@ -80,9 +130,9 @@ Template.website_form.events({
       url = formatUrl(url);
       title = normalizeTitle(title, url);
 
-      console.log(url);
-      console.log("title before insertion: " + title);
-      console.log(description);
+      //console.log(url);
+      //console.log("title before insertion: " + title);
+      //console.log(description);
 
       // Add the new entry into the database
       if (Meteor.user()) {
@@ -106,6 +156,22 @@ Template.website_form.events({
     return false; // stop the form submit from reloading the page
   }
 });
+
+
+Template.website_form_header.events({
+  'click .js-search': function(event) {
+    var query = $("#search-box").val();
+    Session.set("query", query);
+    Meteor.call("remoteSearch", query, function(error, response) {
+      if (error) {
+        alert("Error while searching websites: " + error);
+      } else {
+        Session.set("website_ids", response);
+      }
+    });
+  }
+});
+
 
 Template.website_form_body.events({
   'click .js-get-url-info': function(event) {
@@ -172,7 +238,7 @@ Template.website_form_body.events({
 Template.comment_form.events({
   'submit .js-submit-comment': function(event) {
     var website_id = this._id;
-    console.log("Commenting website with id " + website_id);
+    //console.log("Commenting website with id " + website_id);
 
     // Get the value of the comment
     var comment = event.target.comment.value;
@@ -194,5 +260,19 @@ Template.comment_form.events({
     });
 
     return false; // stop the form submit from reloading the page
+  }
+});
+
+Template.website_search.events({
+  'click .js-search': function(event) {
+    var query = $("#search-box").val();
+    Session.set("query", query);
+    Meteor.call("remoteSearch", query, function(error, response) {
+      if (error) {
+        alert("Error while searching websites: " + error);
+      } else {
+        Session.set("website_ids", response);
+      }
+    });
   }
 });

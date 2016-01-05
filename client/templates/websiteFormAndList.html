@@ -26,16 +26,7 @@
       </div>
       {{/if}}
     </div>
-    <div class="col-md-5">
-      <div class="input-group" id="search">
-        <input type="text" class="form-control" placeholder="Search for..." id="search-box">
-        <span class="input-group-btn">
-          <button class="btn btn-default js-search" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </span>
-      </div>
-    </div>
+    {{> search_widget}}
   </div>
 </template>
 
@@ -97,7 +88,7 @@
 <!-- Individual website entry -->
 <template name="website_item">
   <li class="item" id="{{_id}}">
-    <a href="{{url}}">{{title}}</a>
+    <a href="{{url}}" target="_blank">{{title}}</a>
     <p>{{description}}</p>
     <a href="#" class="btn {{upvotesButtonClass}} js-upvote voting">
       <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
@@ -108,6 +99,20 @@
     </a>
     <p class="votes negative">{{downvotes}}</p>
     <p class="date">Created on: {{createdOn}}</p>
-    <a href="websites/{{_id}}" class="btn btn-info btn-xs">Details&nbsp;&nbsp;&gt;&gt;</a>
+    <a href="/websites/{{_id}}" class="btn btn-info btn-xs">Details&nbsp;&nbsp;&gt;&gt;</a>
   </li>
+</template>
+
+<!-- Website search widget -->
+<template name="search_widget">
+  <div class="col-md-5">
+    <div class="input-group" id="search">
+      <input type="text" class="form-control" placeholder="Search for..." id="search-box">
+      <span class="input-group-btn">
+        <a class="btn btn-default js-search" type="button" href="/search_results">
+          <span class="glyphicon glyphicon-search"></span>
+        </a>
+      </span>
+    </div>
+  </div>
 </template>
